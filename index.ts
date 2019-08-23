@@ -8,6 +8,4 @@ const env = { ...(dotenv.config().parsed as any) };
   await ig.initialize();
 
   await ig.login(env.USERNAME, env.PASSWORD);
-
-  debugger;
 })();

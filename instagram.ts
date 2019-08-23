@@ -16,20 +16,8 @@ const instagram = {
     instagram.page = await instagram.browser.newPage();
   },
 
-  // TODO: LOGIN function
   login: async (username: string, password: string) => {
     await instagram.page.goto(BASE_URL, { waitUntil: "networkidle2" });
-
-    // let loginButton = await instagram.page.$x(
-    //   '//a[contains(text(), "Log in")]'
-    // );
-
-    // // Click on the login url button
-    // await loginButton[0].click();
-
-    // await instagram.page.waitForNavigation({ waitUntil: "networkidle2" });
-
-    // await instagram.page.waitFor(1000);
 
     // Type input fields - User ID & Password
     await instagram.page.type('input[name="username"]', username, {
