@@ -1,7 +1,5 @@
-import ig from './instagram';
+import ig from "./instagram";
 
-const main = async () => {
-  ig.initialize();
-};
-
-main();
+(async () => {
+  await ig.initialize();
+})();
