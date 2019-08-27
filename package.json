@@ -16,10 +16,10 @@
     "puppeteer": "^1.19.0"
   },
   "scripts": {
-    "dev": "ts-node index.ts"
+    "start": "ts-node index.ts"
   },
   "name": "ig-puppeteer",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "main": "index.js",
   "license": "MIT"
 }
