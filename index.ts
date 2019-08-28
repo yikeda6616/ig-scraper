@@ -9,7 +9,7 @@ const env = { ...(dotenv.config().parsed as any) };
 
   await ig.login(env.USERNAME, env.PASSWORD);
 
-  await ig.likeTagsProcess(["cars", "car"]);
+  await ig.likeTagsProcess(["cars", "music"]);
 
   await ig.close();
 })();

@@ -60,12 +60,12 @@ const instagram = {
 
         if (isLikable) {
           await instagram.page.click('span[aria-label="Like"]');
+          console.log("--- A post has been Liked! ---");
         }
 
         const closeModalButton = await instagram.page.$x(
           '//button[contains(text(), "Close")]'
         );
-
         await closeModalButton[0].click();
 
         await instagram.page.waitFor(1000);
