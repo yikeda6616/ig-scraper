@@ -10,4 +10,6 @@ const env = { ...(dotenv.config().parsed as any) };
   await ig.login(env.USERNAME, env.PASSWORD);
 
   await ig.likeTagsProcess(["cars", "car"]);
+
+  await ig.close();
 })();

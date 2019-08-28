@@ -72,6 +72,10 @@ const instagram = {
       }
     }
   },
+
+  close: async () => {
+    await instagram.browser.close();
+  },
 };
 
 export default instagram;
