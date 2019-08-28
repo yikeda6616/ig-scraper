@@ -56,7 +56,7 @@ const instagram = {
         );
         await instagram.page.waitFor(1000);
 
-        const isLikable = await post.$('span[aria-label="Like"]');
+        const isLikable = await instagram.page.$('span[aria-label="Like"]');
 
         if (isLikable) {
           await instagram.page.click('span[aria-label="Like"]');
