@@ -21,6 +21,7 @@ const instagram = {
 
   login: async (username: string, password: string) => {
     await instagram.page.goto(BASE_URL, { waitUntil: "networkidle2" });
+    await instagram.page.waitFor(1000); // To make sure the form is loaded
 
     // Type input fields - User ID & Password
     await instagram.page.type('input[name="username"]', username, {
