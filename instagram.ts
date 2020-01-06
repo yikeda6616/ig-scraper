@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer, { Browser, Page } from "puppeteer";
 
 const BASE_URL =
   "https://www.instagram.com/accounts/login/?source=auth_switcher";
@@ -6,75 +6,75 @@ const BASE_URL =
 const TAG_URL = (tag: string) =>
   `https://www.instagram.com/explore/tags/${tag}/`;
 
-const instagram = {
-  browser: null as any,
-  page: null as any,
+export class Instagram {
+  browser: Browser | null = null;
+  page: Page | null = null;
 
-  initialize: async () => {
-    instagram.browser = await puppeteer.launch({
-      headless: false, // debug purpose
-      slowMo: 50, // Make execution slow
+  async initialize() {
+    this.browser = await puppeteer.launch({
+      headless: false,
+      slowMo: 50,
     });
+    this.page = await this.browser.newPage();
+  }
 
-    instagram.page = await instagram.browser.newPage();
-  },
-
-  login: async (username: string, password: string) => {
-    await instagram.page.goto(BASE_URL, { waitUntil: "networkidle2" });
-    await instagram.page.waitFor(1000); // To make sure the form is loaded
+  async login(username: string, password: string) {
+    await this.page?.goto(BASE_URL, { waitUntil: "networkidle2" });
+    await this.page?.waitFor(1000); // To make sure the form is loaded
 
     // Type input fields - User ID & Password
-    await instagram.page.type('input[name="username"]', username, {
+    await this.page?.type('input[name="username"]', username, {
       delay: 0,
     });
-    await instagram.page.type('input[name="password"]', password, {
+    await this.page?.type('input[name="password"]', password, {
       delay: 0,
     });
 
     // Click on the login button
-    const loginButton = await instagram.page.$('button[type="submit"]');
-    await loginButton.click();
-    await instagram.page.waitForNavigation({ waitUntil: "networkidle2" });
-  },
+    const loginButton = await this.page?.$('button[type="submit"]');
+    await loginButton?.click();
+    await this.page?.waitForNavigation({ waitUntil: "networkidle2" });
+  }
 
-  likeTagsProcess: async (tags: string[] = []) => {
+  async likeTagsProcess(tags: string[] = []) {
     for (const tag of tags) {
       /* Go To the Tag Page */
-      await instagram.page.goto(TAG_URL(tag), { waitUntil: "networkidle2" });
-      await instagram.page.waitFor(1000);
+      await this.page?.goto(TAG_URL(tag), { waitUntil: "networkidle2" });
+      await this.page?.waitFor(1000);
 
-      const posts = await instagram.page.$$(
+      const posts = await this.page?.$$(
         'article > div:nth-child(3) img[decoding="auto"]'
       );
 
-      for (let i = 0; i < 3; i++) {
-        const post = posts[i];
-
+      for (const post of posts?.slice(0, 3) ?? []) {
         await post.click();
 
-        await instagram.page.waitFor('div[id="react-root"]');
-        await instagram.page.waitFor(1000);
+        await this.page?.waitFor('div[id="react-root"]');
+        await this.page?.waitFor(1000);
 
-        const isLikable = await instagram.page.$('span[aria-label="Like"]');
+        const isLikable = await this.page?.$('span[aria-label="Like"]');
 
         if (isLikable) {
-          await instagram.page.click('span[aria-label="Like"]');
+          await this.page?.click('span[aria-label="Like"]');
           console.log("--- A post has been Liked! ---");
         }
 
-        const closeModalButton = await instagram.page.$x(
+        const closeModalButton = await this.page?.$x(
           '//button[contains(text(), "Close")]'
         );
+
+        if (!closeModalButton) {
+          continue;
+        }
+
         await closeModalButton[0].click();
 
-        await instagram.page.waitFor(1000);
+        await this.page?.waitFor(1000);
       }
     }
-  },
+  }
 
-  close: async () => {
-    await instagram.browser.close();
-  },
-};
-
-export default instagram;
+  async close() {
+    await this.browser?.close();
+  }
+}

@@ -1,10 +1,11 @@
 import * as dotenv from "dotenv";
+import { Instagram } from "./instagram";
 
-import ig from "./instagram";
-
-const env = { ...(dotenv.config().parsed as any) };
+const env: dotenv.DotenvParseOutput = dotenv.config().parsed ?? {};
 
 (async () => {
+  const ig = new Instagram();
+
   await ig.initialize();
 
   await ig.login(env.USERNAME, env.PASSWORD);
