@@ -25,10 +25,10 @@ const instagram = {
 
     // Type input fields - User ID & Password
     await instagram.page.type('input[name="username"]', username, {
-      delay: 50,
+      delay: 0,
     });
     await instagram.page.type('input[name="password"]', password, {
-      delay: 50,
+      delay: 0,
     });
 
     // Click on the login button
