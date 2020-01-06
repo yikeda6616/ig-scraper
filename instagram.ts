@@ -52,9 +52,7 @@ const instagram = {
 
         await post.click();
 
-        await instagram.page.waitFor(
-          'span[id="react-root"][aria-hidden="true"]'
-        );
+        await instagram.page.waitFor('div[id="react-root"]');
         await instagram.page.waitFor(1000);
 
         const isLikable = await instagram.page.$('span[aria-label="Like"]');
