@@ -20,6 +20,7 @@ export class Instagram {
 
   async login(username: string, password: string) {
     await this.page?.goto(BASE_URL, { waitUntil: "networkidle2" });
+    await this.page?.waitFor('input[name="username"]');
     await this.page?.waitFor(1000); // To make sure the form is loaded
 
     // Type input fields - User ID & Password
