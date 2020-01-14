@@ -37,7 +37,7 @@ export class Instagram {
     await this.page?.waitForNavigation({ waitUntil: "networkidle2" });
   }
 
-  async likeTagsProcess(tags: string[] = []) {
+  async saveImageProcess(tags: string[] = []) {
     for (const tag of tags) {
       /* Go To the Tag Page */
       await this.page?.goto(TAG_URL(tag), { waitUntil: "networkidle2" });
@@ -53,12 +53,32 @@ export class Instagram {
         await this.page?.waitFor('div[id="react-root"]');
         await this.page?.waitFor(1000);
 
-        const isLikable = await this.page?.$('span[aria-label="Like"]');
+        /* 
+        Multiple Postのロジック
+        １枚目が画像か動画か判定
+        画像なら保存 
+        動画なら何もしない　span.videoSpritePlayButton
+        次のスライドへ移動     coreSpriteRightChevron
+        if 次のスライドがなければ次のポストへ
+        2枚目が画像か動画か判定
+        画像なら保存
+        動画なら何もしない
+        次のスライドへ移動
+        if 次のスライドがなければ次のポストへ
 
-        if (isLikable) {
-          await this.page?.click('span[aria-label="Like"]');
-          console.log("--- A post has been Liked! ---");
+        */
+       const isImage = await this.page?.$x('//img[sizes="600px"]');
+       const isVideo = awiat this.page?.$x('//span.videoSpritePlayButton');
+       const hasNextSlide = this.page?.$('div.coreSpriteRightChevron');
+       console.log(isImage, isVideo, hasNextSlide);
+
+        // Skip this slide if it is a video
+        if (!isImage) {
+          continue;
         }
+
+        await this.page?.click('span[aria-label="Like"]');
+        console.log("--- An image has been saved! ---");
 
         const closeModalButton = await this.page?.$x(
           '//button[contains(text(), "Close")]'

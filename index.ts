@@ -10,7 +10,7 @@ const env: dotenv.DotenvParseOutput = dotenv.config().parsed ?? {};
 
   await ig.login(env.USERNAME, env.PASSWORD);
 
-  await ig.likeTagsProcess(["cars", "music"]);
+  await ig.saveImageProcess(["deathstranding"]);
 
   await ig.close();
 })();
