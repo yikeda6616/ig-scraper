@@ -67,10 +67,10 @@ export class Instagram {
         if 次のスライドがなければ次のポストへ
 
         */
-       const isImage = await this.page?.$x('//img[sizes="600px"]');
-       const isVideo = awiat this.page?.$x('//span.videoSpritePlayButton');
-       const hasNextSlide = this.page?.$('div.coreSpriteRightChevron');
-       console.log(isImage, isVideo, hasNextSlide);
+        const isImage = await this.page?.$x('//img[sizes="600px"]');
+        const isVideo = await this.page?.$x("//span.videoSpritePlayButton");
+        const hasNextSlide = this.page?.$("div.coreSpriteRightChevron");
+        console.log(isImage, isVideo, hasNextSlide);
 
         // Skip this slide if it is a video
         if (!isImage) {
