@@ -53,22 +53,25 @@ export class Instagram {
         await this.page?.waitFor('div[id="react-root"]');
         await this.page?.waitFor(1000);
 
-        const isLikable = await this.page?.$('span[aria-label="Like"]');
+        const likeSelector = 'button svg[aria-label="Like"]';
+        const isLikable = await this.page?.$(likeSelector);
 
         if (isLikable) {
-          await this.page?.click('span[aria-label="Like"]');
+          await this.page?.click(likeSelector);
           console.log("--- A post has been Liked! ---");
         }
 
-        const closeModalButton = await this.page?.$x(
-          '//button[contains(text(), "Close")]'
-        );
+        const closeSelector = 'button svg[aria-label="Close"]';
 
-        if (!closeModalButton) {
-          continue;
+        if (closeSelector) {
+          const closeModalButton = await this.page?.$(closeSelector);
+
+          if (!closeModalButton) {
+            continue;
+          }
+
+          await closeModalButton.click();
         }
-
-        await closeModalButton[0].click();
 
         await this.page?.waitFor(1000);
       }
